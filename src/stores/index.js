@@ -1,7 +1,13 @@
-import { defineStore } from 'pinia'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
 
 export const useStore = defineStore('store', () => {
-  // Add your state management code here
+  const firstName = ref("");
+  const lastName = ref("");
+  const username = ref("");
+  const email = ref("");
+  const password = ref("");
+  const cart = ref(new Map());
 
-  return { }
+  return { firstName, lastName, username, email, password, cart }
 })

@@ -1,0 +1,57 @@
+body {
+  background-color: #151515;
+  margin: 0;
+}
+
+* :not(h1) {
+  transition: opacity 1s ease;
+}
+
+.item {
+  justify-items: center;
+}
+
+.cart-button {
+  margin: 10px;
+}
+
+.movie-gallery {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: white;
+  background-color: #141414;
+}
+
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.movie-card {
+  background-color: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  width: 170px;
+}
+
+.movie-card:hover,
+button:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.movie-poster {
+  width: 100%;
+  height: auto;
+}
+
+.movie-title {
+  padding: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: white;
+}
