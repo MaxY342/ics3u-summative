@@ -1,27 +1,46 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { useStore } from "../store"
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../firebase"
 
+const store = useStore();
 const router = useRouter();
+const email = ref('');
 const password = ref('');
 
-const handleLogin = () => {
-  if (password.value === "yes") {
+const loginByEmail = async () => {
+  try {
+    const user = (await signInWithEmailAndPassword(auth, email.value, password.value)).user;
+    store.user = user;
     router.push("/home");
-  } else {
-    alert("Invalid Password");
+  } catch (error) {
+    console.log(error);
+    alert("There was an error signing in with email!");
+  }
+};
+
+const loginByGoogle = async () => {
+  try {
+    const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+    store.user = user;
+    router.push("/home");
+  } catch (error) {
+    alert("There was an error signing in with Google!");
   }
 };
 </script>
 
 <template>
-  <form class="login" @submit.prevent="handleLogin">
+  <form class="login" @submit.prevent="loginByEmail">
     <label>Username/Email</label>
-    <input>
+    <input v-model="email" type="email">
     <label>Password</label>
     <input v-model="password" type="password">
     <button type="submit">Log-in</button>
   </form>
+  <button @click="loginByGoogle()" type="submit" class="button login">Login by Google</button>
 </template>
 
 <style scoped>

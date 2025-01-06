@@ -18,7 +18,7 @@ const route = useRoute();
       </div>
     </div>
     <h1 class="logo">Metflix</h1>
-    <h1 class="greeting">Hello, {{ store.firstName }}</h1>
+    <h1 class="greeting">Hello, {{ store.user.email }}</h1>
     <div v-if="route.name == 'landingPage' || route.name == 'signup' || route.name == 'login'" class="right-buttons">
       <RouterLink v-if="route.name !== 'signup'" to="/signup" class="sign-up-btn">Sign-up</RouterLink>
       <RouterLink v-if="route.name !== 'login'" to="/login" class="log-in-btn">Login</RouterLink>

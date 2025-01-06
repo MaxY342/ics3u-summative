@@ -2,6 +2,8 @@
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores/index'
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../firebase";
 
 const router = useRouter();
 const firstName = ref("");
@@ -12,22 +14,30 @@ const password = ref("");
 const confirmPassword = ref("");
 const store = useStore();
 
-const handleSignup = () => {
-  if (confirmPassword.value !== password.value) {
-    alert("Confirm Password Does Not Match Password");
-  } else {
-    store.firstName = firstName.value;
-    store.lastName = lastName.value;
-    store.username = username.value;
-    store.email = email.value;
-    store.password = password.value;
+async function registerByEmail() {
+  try {
+    const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
+    await updateProfile(user, { displayName: `${firstName.value} ${lastName.value}` });
+    store.user = user;
     router.push("/home");
+  } catch (error) {
+    alert("There was an error creating a user with email!");
   }
-};
+}
+
+async function registerByGoogle() {
+  try {
+    const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+    store.user = user;
+    router.push("/home");
+  } catch (error) {
+    alert("There was an error creating a user with Google!");
+  }
+}
 </script>
 
 <template>
-  <form class="login" @submit.prevent="handleSignup">
+  <form class="login" @submit.prevent="registerByEmail">
     <label>First Name</label>
     <input required v-model="firstName">
     <label>Last Name</label>
@@ -42,6 +52,7 @@ const handleSignup = () => {
     <input type="password" required v-model="confirmPassword">
     <button type="submit">Sign-up</button>
   </form>
+  <button @click="registerByGoogle()" class="button register">Register by Google</button>
 </template>
 
 <style scoped>
