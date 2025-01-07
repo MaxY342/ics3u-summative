@@ -57,6 +57,7 @@ async function registerByGoogle() {
 
 <style scoped>
 .login {
+  background-color: #151515;
   color: white;
   display: flex;
   flex-direction: column;

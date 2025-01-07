@@ -8,7 +8,7 @@ import Footer from '../components/Footer.vue';
   <main>
     <Topbar />
     <div class="login-container">
-      <Login class="login" />
+      <Login />
     </div>
     <Footer />
   </main>
@@ -26,9 +26,5 @@ main {
   justify-content: center;
   align-items: center;
   background-color: #2f2f2f;
-}
-
-.login {
-  background-color: #151515;
 }
 </style>

@@ -8,7 +8,8 @@ import ItemDetailsVeiw from '@/views/ItemDetailsVeiw.vue'
 import SearchResultsVeiw from '@/views/SearchResultsVeiw.vue'
 import CartView from '@/views/CartView.vue'
 import SettingsView from '@/views/SettingsView.vue'
-import { userAuthorized, useStore } from '../store';
+import ErrorView from '@/views/ErrorView.vue'
+import { userAuthorized, useStore } from '../stores';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,8 +68,13 @@ const router = createRouter({
       meta: { auth: true },
       component: SettingsView,
     },
+    { 
+      path: '/:pathMatch(.*)*', 
+      meta: { auth: false }, 
+      component: ErrorView, 
+    },
   ],
-})
+});
 
 router.beforeEach((to, from, next) => {
   userAuthorized.then(() => {
@@ -82,4 +88,4 @@ router.beforeEach((to, from, next) => {
   });
 });
 
-export default router
+export default router;

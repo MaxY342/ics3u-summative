@@ -8,7 +8,7 @@ import Footer from '../components/Footer.vue';
   <main>
     <Topbar />
     <div class="signup-container">
-      <Signup class="signup" />
+      <Signup />
     </div>
     <Footer />
   </main>
@@ -27,9 +27,5 @@ main {
   align-items: center;
   background-color: #2f2f2f;
   padding: 5rem;
-}
-
-.signup {
-  background-color: #151515;
 }
 </style>

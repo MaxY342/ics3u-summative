@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { useStore } from "../store"
+import { useStore } from "../stores"
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
 
@@ -45,6 +45,7 @@ const loginByGoogle = async () => {
 
 <style scoped>
 .login {
+  background-color: #151515;
   color: white;
   display: flex;
   flex-direction: column;

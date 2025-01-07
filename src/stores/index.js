@@ -14,10 +14,17 @@ export const userAuthorized = new Promise((resolve, reject) => {
   onAuthStateChanged(auth, user => {
     try {
       const store = useStore();
-      store.user = user;
-      const storedCart = localStorage.getItem(`cart_${store.user.email}`);
+      
+      if (user) {
+        store.user = user;
+        const storedCart = localStorage.getItem(`cart_${store.user.email}`);
 
-      store.cart = storedCart ? new Map(Object.entries(JSON.parse(storedCart))) : new Map();
+        store.cart = storedCart ? new Map(Object.entries(JSON.parse(storedCart))) : new Map();
+      } else {
+        store.user = null;
+        store.cart = new Map();
+      }
+
       resolve();
     } catch (error) {
       reject();
