@@ -1,11 +1,12 @@
 <script setup>
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
 import { useStore } from '../stores/index';
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 const nowPlaying = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}`);
 const trending = await axios.get(`https://api.themoviedb.org/3/trending/all/day?api_key=${import.meta.env.VITE_TMDB_KEY}`);
 const topRated = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}`);
@@ -26,6 +27,11 @@ function toggleLimit(list, isExpanded) {
 function getMovieDetails(type, id) {
   router.push(`/${type}/${id}`);
 }
+
+function addToCart(item) {
+  store.cart.set(item.id, { title: item.title || item.name, url: item.poster_path })
+  localStorage.setItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
+}
 </script>
 
 <template>
@@ -37,7 +43,7 @@ function getMovieDetails(type, id) {
           <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="Movie Poster" class="movie-poster" />
           <p class="movie-title">{{ movie.title }}</p>
         </div>
-        <button @click="store.cart.set(movie.id, { title: movie.title, url: movie.poster_path })" class="cart-button">
+        <button @click="addToCart(movie)" class="cart-button">
           {{ store.cart.has(movie.id) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
@@ -53,7 +59,7 @@ function getMovieDetails(type, id) {
           <img :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`" alt="Movie Poster" class="movie-poster" />
           <p class="movie-title">{{ item.media_type === 'tv' ? item.name : item.title }}</p>
         </div>
-        <button @click="store.cart.set(item.id, { title: item.title || item.name, url: item.poster_path })" class="cart-button">
+        <button @click="addToCart(item)" class="cart-button">
           {{ store.cart.has(item.id) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
@@ -69,7 +75,7 @@ function getMovieDetails(type, id) {
           <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="Movie Poster" class="movie-poster" />
           <p class="movie-title">{{ movie.title }}</p>
         </div>
-        <button @click="store.cart.set(movie.id, { title: movie.title, url: movie.poster_path })" class="cart-button">
+        <button @click="addToCart(movie)" class="cart-button">
           {{ store.cart.has(movie.id) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
@@ -85,7 +91,7 @@ function getMovieDetails(type, id) {
           <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="Movie Poster" class="movie-poster" />
           <p class="movie-title">{{ movie.title }}</p>
         </div>
-        <button @click="store.cart.set(movie.id, { title: movie.title, url: movie.poster_path })" class="cart-button">
+        <button @click="addToCart(movie)" class="cart-button">
           {{ store.cart.has(movie.id) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>

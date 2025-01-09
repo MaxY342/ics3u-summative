@@ -4,7 +4,18 @@ import Footer from '../components/Footer.vue'
 import { useStore } from '../stores/index';
 
 const store = useStore();
-console.log(store);
+function removeItem(key) {
+  store.cart.delete(key)
+  var items = JSON.parse(localStorage.getItem(`cart_${store.user.email}`));
+  for (var i = 0; i < items.length; i++) {
+    var item = JSON.parse(items[i]);
+    if (item.id == key) {
+        items.splice(i, 1);
+    }
+}
+  localStorage.removeItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
+}
+console.log(localStorage)
 </script>
 
 <template>

@@ -1,11 +1,12 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from '@/stores';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 
 const logout = () => {
   store.user = null;
