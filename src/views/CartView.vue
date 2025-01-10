@@ -6,16 +6,15 @@ import { useStore } from '../stores/index';
 const store = useStore();
 function removeItem(key) {
   store.cart.delete(key)
-  var items = JSON.parse(localStorage.getItem(`cart_${store.user.email}`));
-  for (var i = 0; i < items.length; i++) {
-    var item = JSON.parse(items[i]);
-    if (item.id == key) {
-        items.splice(i, 1);
-    }
+  localStorage.setItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
 }
-  localStorage.removeItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
+
+function clearCart() {
+  
 }
+
 console.log(localStorage)
+console.log(store.cart)
 </script>
 
 <template>
@@ -27,7 +26,7 @@ console.log(localStorage)
         <div class="item" v-for="([key, value]) in store.cart">
           <img :src="`https://image.tmdb.org/t/p/w500${value.url}`" />
           <h1>{{ value.title }}</h1>
-          <button @click="store.cart.delete(key)">Remove</button>
+          <button @click="removeItem(key)">Remove</button>
         </div>
       </div>
     </div>

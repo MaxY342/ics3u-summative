@@ -63,6 +63,11 @@ function getMovieDetails(type, id) {
   router.push(`/${type}/${id}`);
 }
 
+function addToCart(item) {
+  store.cart.set(String(item.id), { title: item.title || item.name, url: item.poster_path })
+  localStorage.setItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
+}
+
 onMounted(() => {
   getGenres();
 });
@@ -149,8 +154,8 @@ watch(type, () => {
           <img :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`" alt="Movie Poster" class="movie-poster" />
           <p class="movie-title">{{ type == 'movie' ? item.title : item.name }}</p>
         </div>
-        <button @click="store.cart.set(item.id, { title: item.title || item.name, url: item.poster_path })" class="cart-button">
-          {{ store.cart.has(item.id) ? 'Added' : 'Add to Cart' }}
+        <button @click="addToCart(item)" class="cart-button">
+          {{ store.cart.has(String(item.id)) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
     </div>

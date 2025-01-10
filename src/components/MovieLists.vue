@@ -29,9 +29,11 @@ function getMovieDetails(type, id) {
 }
 
 function addToCart(item) {
-  store.cart.set(item.id, { title: item.title || item.name, url: item.poster_path })
+  store.cart.set(String(item.id), { title: item.title || item.name, url: item.poster_path })
   localStorage.setItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
 }
+
+console.log(store.cart)
 </script>
 
 <template>
@@ -44,7 +46,7 @@ function addToCart(item) {
           <p class="movie-title">{{ movie.title }}</p>
         </div>
         <button @click="addToCart(movie)" class="cart-button">
-          {{ store.cart.has(movie.id) ? 'Added' : 'Add to Cart' }}
+          {{ store.cart.has(String(movie.id)) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
     </div>
@@ -60,7 +62,7 @@ function addToCart(item) {
           <p class="movie-title">{{ item.media_type === 'tv' ? item.name : item.title }}</p>
         </div>
         <button @click="addToCart(item)" class="cart-button">
-          {{ store.cart.has(item.id) ? 'Added' : 'Add to Cart' }}
+          {{ store.cart.has(String(item.id)) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
     </div>
@@ -76,7 +78,7 @@ function addToCart(item) {
           <p class="movie-title">{{ movie.title }}</p>
         </div>
         <button @click="addToCart(movie)" class="cart-button">
-          {{ store.cart.has(movie.id) ? 'Added' : 'Add to Cart' }}
+          {{ store.cart.has(String(movie.id)) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
     </div>
@@ -92,7 +94,7 @@ function addToCart(item) {
           <p class="movie-title">{{ movie.title }}</p>
         </div>
         <button @click="addToCart(movie)" class="cart-button">
-          {{ store.cart.has(movie.id) ? 'Added' : 'Add to Cart' }}
+          {{ store.cart.has(String(movie.id)) ? 'Added' : 'Add to Cart' }}
         </button>
       </div>
     </div>
