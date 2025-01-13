@@ -20,14 +20,15 @@ const logout = () => {
     <div class="sidebar">
       <button class=sidebarbtn>Menu</button>
       <div class="sidebar-content">
-        <RouterLink to="/">Landing Page</RouterLink>
-        <RouterLink to="/home">Homepage</RouterLink>
-        <RouterLink to="/filter">Filter</RouterLink>
-        <RouterLink to="/cart">My Cart</RouterLink>
+        <RouterLink v-if="!store.user" to="/">Landing Page</RouterLink>
+        <RouterLink v-if="store.user" to="/home">Homepage</RouterLink>
+        <RouterLink v-if="store.user" to="/filter">Filter</RouterLink>
+        <RouterLink v-if="store.user" to="/cart">My Cart</RouterLink>
+        <RouterLink v-if="store.user" to="/settings">Settings</RouterLink>
       </div>
     </div>
     <h1 class="logo">Metflix</h1>
-    <!--<h1 class="greeting">Hello, {{ store.user.email }}</h1>-->
+    <h1 v-if="store.user" class="greeting">Hello, {{ store.user.displayName }}</h1>
     <div v-if="route.name == 'landingPage' || route.name == 'signup' || route.name == 'login'" class="right-buttons">
       <RouterLink v-if="route.name !== 'signup'" to="/signup" class="sign-up-btn">Sign-up</RouterLink>
       <RouterLink v-if="route.name !== 'login'" to="/login" class="log-in-btn">Login</RouterLink>

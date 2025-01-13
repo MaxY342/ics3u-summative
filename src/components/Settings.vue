@@ -14,7 +14,7 @@ function openChangeForm(type) {
 
 function saveChanges(type, value) {
   if (type == 'firstName') {
-    store.firstName = value;
+    store.user.displayName = value;
   }
   else {
     store.lastName = value;
@@ -35,7 +35,7 @@ function closeChanges() {
 <div class="settings-content">
   <h1>Settings</h1>
   <div class="settings-element">
-    <p>First Name: {{ store.firstName }}</p>
+    <p>First Name: {{ store.user.displayName }}</p>
     <button @click="openChangeForm('firstName')">Change</button>
   </div>
   <div class="settings-element">
