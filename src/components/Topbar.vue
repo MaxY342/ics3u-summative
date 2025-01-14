@@ -28,7 +28,7 @@ const logout = () => {
       </div>
     </div>
     <h1 class="logo">Metflix</h1>
-    <h1 v-if="store.user" class="greeting">Hello, {{ store.user.displayName }}</h1>
+    <h1 v-if="store.user" class="greeting">Hello, {{ store.user.displayName.split('|').join(" ") }}</h1>
     <div v-if="route.name == 'landingPage' || route.name == 'signup' || route.name == 'login'" class="right-buttons">
       <RouterLink v-if="route.name !== 'signup'" to="/signup" class="sign-up-btn">Sign-up</RouterLink>
       <RouterLink v-if="route.name !== 'login'" to="/login" class="log-in-btn">Login</RouterLink>

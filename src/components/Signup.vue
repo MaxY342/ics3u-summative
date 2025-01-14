@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores/index'
-import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider, confirmPasswordReset } from "firebase/auth";
 import { auth } from "../firebase";
 
 const router = useRouter();
@@ -15,13 +15,17 @@ const confirmPassword = ref("");
 const store = useStore();
 
 async function registerByEmail() {
-  try {
-    const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
-    await updateProfile(user, { displayName: `${firstName.value} ${lastName.value}` });
-    store.user = user;
-    router.push("/home");
-  } catch (error) {
-    alert("There was an error creating a user with email!");
+  if (confirmPassword.value == password.value) {
+    try {
+      const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
+      await updateProfile(user, { displayName: `${firstName.value}|${lastName.value}` });
+      store.user = user;
+      router.push("/home");
+    } catch (error) {
+      alert("There was an error creating a user with email!");
+    }
+  } else {
+    alert("confirm password does not match password")
   }
 }
 

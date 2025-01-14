@@ -1,8 +1,11 @@
 <script setup>
 import { useStore } from "../stores/index";
 import { ref } from "vue";
+import { getAuth, updateProfile, updatePassword } from "firebase/auth";
 
+const auth = getAuth();
 const store = useStore();
+let [firstName, lastName] = auth.currentUser.displayName.split('|');
 const changeFormOpen = ref(false);
 const changeFormType = ref("");
 const newValue = ref("");
@@ -12,12 +15,17 @@ function openChangeForm(type) {
   changeFormType.value = type;
 }
 
-function saveChanges(type, value) {
+async function saveChanges(type, value) {
   if (type == 'firstName') {
-    store.user.displayName = value;
+    firstName = value;
+    await updateProfile(auth.currentUser, { displayName: `${firstName}|${lastName}` });
+  }
+  else if (type == 'lastName') {
+    lastName = value;
+    await updateProfile(auth.currentUser, { displayName: `${firstName}|${lastName}` });
   }
   else {
-    store.lastName = value;
+    await updatePassword(auth.currentUser, value)
   }
   changeFormOpen.value = false;
   changeFormType.value = "";
@@ -35,19 +43,23 @@ function closeChanges() {
 <div class="settings-content">
   <h1>Settings</h1>
   <div class="settings-element">
-    <p>First Name: {{ store.user.displayName }}</p>
+    <p>First Name: {{ firstName }}</p>
     <button @click="openChangeForm('firstName')">Change</button>
   </div>
   <div class="settings-element">
-    <p>Last Name: {{ store.lastName }}</p>
+    <p>Last Name: {{ lastName }}</p>
     <button @click="openChangeForm('lastName')">Change</button>
   </div>
-  <p>Email: {{ store.email }}</p>
-  <p>Username: {{ store.username }}</p>
+  <p>Email: {{ store.user.email }}</p>
+  <div class="settings-element">
+    <p>Password: ******</p>
+    <button @click="openChangeForm('password')">Change</button>
+  </div>
   <div class="change-form-overlay" v-if="changeFormOpen">
     <div class="change-form">
-      <h2>Change {{ changeFormType == 'firstName' ? 'First Name' : 'Last Name' }}</h2>
-      <input placeholder="Enter new value" v-model="newValue">
+      <h2>Change {{ changeFormType == 'firstName' ? 'First Name' : changeFormType == 'lastName' ? 'Last Name' : 'Password' }}</h2>
+      <input v-if="changeFormType == 'firstName' || changeFormType == 'lastName'" placeholder="Enter new value" v-model="newValue">
+      <input v-if="changeFormType == 'password'" type="password" placeholder="Enter new value" v-model="newValue">
       <div class="change-actions">
         <button @click="closeChanges">Cancel</button>
         <button @click="saveChanges(changeFormType, newValue)">Save</button>
