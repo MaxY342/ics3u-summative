@@ -30,6 +30,7 @@ async function saveChanges(type, value) {
   changeFormOpen.value = false;
   changeFormType.value = "";
   newValue.value = "";
+  location.reload()
 }
 
 function closeChanges() {
