@@ -12,13 +12,19 @@ function searchMoviesAndShows(query) {
 function goToFilter() {
   router.push(`/filter`);
 }
+
+function handleKeyPress(event) {
+  if (event.key === "Enter") {
+    searchMoviesAndShows(searchQuery.value);
+  }
+}
 </script>
 
 <template>
   <div class="search-section">
     <h1>Search Movie</h1>
     <div class="search-bar">
-      <input v-model="searchQuery" placeholder="Enter movie/tv-show title..." />
+      <input @keyup="handleKeyPress" v-model="searchQuery" placeholder="Enter movie/tv-show title..." />
       <button @click="goToFilter">Filter</button>
       <button @click="searchMoviesAndShows(searchQuery)">Search!</button>
     </div>
