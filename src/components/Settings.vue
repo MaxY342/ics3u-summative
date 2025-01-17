@@ -9,6 +9,12 @@ let [firstName, lastName] = auth.currentUser.displayName.split('|');
 const changeFormOpen = ref(false);
 const changeFormType = ref("");
 const newValue = ref("");
+let logedInWithPassword = false;
+auth.currentUser.providerData.forEach((provider) => {
+  if (provider.providerId == "password") {
+    logedInWithPassword = true;
+  }
+});
 
 function openChangeForm(type) {
   changeFormOpen.value = true;
@@ -45,16 +51,16 @@ function closeChanges() {
   <h1>Settings</h1>
   <div class="settings-element">
     <p>First Name: {{ firstName }}</p>
-    <button @click="openChangeForm('firstName')">Change</button>
+    <button v-if="logedInWithPassword" @click="openChangeForm('firstName')">Change</button>
   </div>
   <div class="settings-element">
     <p>Last Name: {{ lastName }}</p>
-    <button @click="openChangeForm('lastName')">Change</button>
+    <button v-if="logedInWithPassword" @click="openChangeForm('lastName')">Change</button>
   </div>
   <p>Email: {{ store.user.email }}</p>
   <div class="settings-element">
     <p>Password: ******</p>
-    <button @click="openChangeForm('password')">Change</button>
+    <button v-if="logedInWithPassword" @click="openChangeForm('password')">Change</button>
   </div>
   <div class="change-form-overlay" v-if="changeFormOpen">
     <div class="change-form">
