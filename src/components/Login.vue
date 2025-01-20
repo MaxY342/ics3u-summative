@@ -34,7 +34,7 @@ const loginByGoogle = async () => {
 
 <template>
   <form class="login" @submit.prevent="loginByEmail">
-    <label>Username/Email</label>
+    <label>Email</label>
     <input v-model="email" type="email">
     <label>Password</label>
     <input v-model="password" type="password">

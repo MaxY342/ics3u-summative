@@ -9,7 +9,6 @@ const router = useRouter();
 const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
-const username = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const store = useStore();
@@ -46,8 +45,6 @@ async function registerByGoogle() {
     <input required v-model="firstName">
     <label>Last Name</label>
     <input required v-model="lastName">
-    <label>Username</label>
-    <input required v-model="username">
     <label>Email</label>
     <input type="email" required v-model="email">
     <label>Password</label>
